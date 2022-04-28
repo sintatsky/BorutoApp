@@ -1,13 +1,17 @@
 package com.example.borutoapp.screens.welcome
 
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
+import androidx.compose.material.Button
+import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -18,9 +22,7 @@ import com.example.borutoapp.R
 import com.example.borutoapp.domain.model.OnBoardingPage
 import com.example.borutoapp.ui.theme.*
 import com.example.borutoapp.util.Constants.ON_BOARDING_PAGE_COUNT
-import com.google.accompanist.pager.ExperimentalPagerApi
-import com.google.accompanist.pager.HorizontalPager
-import com.google.accompanist.pager.rememberPagerState
+import com.google.accompanist.pager.*
 
 @ExperimentalPagerApi
 @Composable
@@ -39,11 +41,29 @@ fun WelcomeScreen(navHostController: NavHostController) {
             .background(color = MaterialTheme.colors.welcomeScreenBackground)
     ) {
         HorizontalPager(
+            modifier = Modifier.weight(10f),
             state = pagerState,
             count = ON_BOARDING_PAGE_COUNT,
             verticalAlignment = Alignment.Top
         ) { position ->
             PagerScreen(onBoardingPage = pages[position])
+        }
+        HorizontalPagerIndicator(
+            modifier = Modifier
+                .weight(1f)
+                .align(Alignment.CenterHorizontally),
+            pagerState = pagerState,
+            activeColor = MaterialTheme.colors.activeIndicatorColor,
+            inactiveColor = MaterialTheme.colors.inactiveIndicatorColor,
+            indicatorWidth = PAGING_INDICATOR_WIDTH,
+            spacing = PAGING_INDICATOR_SPACING,
+
+            )
+        FinishButton(
+            modifier = Modifier.weight(1f),
+            pagerState = pagerState
+        ) {
+
         }
     }
 }
@@ -86,9 +106,38 @@ fun PagerScreen(onBoardingPage: OnBoardingPage) {
     }
 }
 
+@ExperimentalPagerApi
+@Composable
+fun FinishButton(
+    modifier: Modifier,
+    pagerState: PagerState,
+    onClick: () -> Unit
+) {
+    Row(
+        modifier = modifier.padding(horizontal = EXTRA_LARGE_PADDING),
+        verticalAlignment = Alignment.Top,
+        horizontalArrangement = Arrangement.Center
+    ) {
+        AnimatedVisibility(
+            modifier = Modifier.fillMaxWidth(),
+            visible = pagerState.currentPage == 2
+        ) {
+            Button(
+                onClick = onClick,
+                colors = ButtonDefaults.buttonColors(
+                    backgroundColor = MaterialTheme.colors.buttonBackgroundColor,
+                    contentColor = Color.White
+                )
+                ) {
+                Text(text = "Finish")
+            }
+        }
+    }
+}
+
 @Composable
 @Preview(showBackground = true)
-fun FirstOnBoardScreenPreview(){
+fun FirstOnBoardScreenPreview() {
     Column(modifier = Modifier.fillMaxSize()) {
         PagerScreen(onBoardingPage = OnBoardingPage.First)
     }
@@ -96,7 +145,7 @@ fun FirstOnBoardScreenPreview(){
 
 @Composable
 @Preview(showBackground = true)
-fun SecondOnBoardScreenPreview(){
+fun SecondOnBoardScreenPreview() {
     Column(modifier = Modifier.fillMaxSize()) {
         PagerScreen(onBoardingPage = OnBoardingPage.Second)
     }
@@ -104,7 +153,7 @@ fun SecondOnBoardScreenPreview(){
 
 @Composable
 @Preview(showBackground = true)
-fun ThirdOnBoardScreenPreview(){
+fun ThirdOnBoardScreenPreview() {
     Column(modifier = Modifier.fillMaxSize()) {
         PagerScreen(onBoardingPage = OnBoardingPage.Third)
     }
