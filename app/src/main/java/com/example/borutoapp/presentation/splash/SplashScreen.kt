@@ -1,4 +1,4 @@
-package com.example.borutoapp.screens.splash
+package com.example.borutoapp.presentation.splash
 
 import android.content.res.Configuration.UI_MODE_NIGHT_YES
 import androidx.compose.animation.core.Animatable
