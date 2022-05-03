@@ -1,26 +1,28 @@
 package com.example.borutoapp.presentation.home
 
-import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Scaffold
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavHostController
 import androidx.paging.compose.collectAsLazyPagingItems
-import com.example.borutoapp.presentation.components.RatingWidget
-import com.example.borutoapp.ui.theme.LARGE_PADDING
-import com.example.borutoapp.ui.theme.SMALL_PADDING
+import com.example.borutoapp.presentation.common.ListContent
 
 @Composable
 fun HomeScreen(
-    homeViewModel: HomeViewModel = hiltViewModel()
+    homeViewModel: HomeViewModel = hiltViewModel(),
+    navHostController: NavHostController
 ) {
     val allHeroes = homeViewModel.getAllHeroes.collectAsLazyPagingItems()
 
     Scaffold(
         topBar = {
             HomeTopBar(onSearchClicked = { })
+        },
+        content = {
+            ListContent(
+                heroes = allHeroes,
+                navHostController
+            )
         }
-    ) {
-        RatingWidget(modifier = Modifier.padding(all = SMALL_PADDING),rating = 2.5)
-    }
+    )
 }
