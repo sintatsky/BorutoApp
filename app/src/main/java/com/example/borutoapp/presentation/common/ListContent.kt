@@ -1,7 +1,6 @@
 package com.example.borutoapp.presentation.common
 
 import android.content.res.Configuration.UI_MODE_NIGHT_YES
-import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -23,6 +22,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
+import androidx.paging.LoadState
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.items
 import coil.compose.rememberImagePainter
@@ -38,23 +38,49 @@ fun ListContent(
     heroes: LazyPagingItems<Hero>,
     navHostController: NavHostController
 ) {
-    Log.d("ListContent", heroes.loadState.toString())
-    LazyColumn(
-        contentPadding = PaddingValues(all = SMALL_PADDING),
-        verticalArrangement = Arrangement.spacedBy(SMALL_PADDING)
-    ) {
-        items(
-            items = heroes,
-            key = {hero ->
-                hero.id
-            }
-        ){ hero ->
-            hero?.let {
-                HeroItem(hero = it, navHostController = navHostController)
+    val result = handlePagingResult(heroes = heroes)
+    if (result) {
+        LazyColumn(
+            contentPadding = PaddingValues(all = SMALL_PADDING),
+            verticalArrangement = Arrangement.spacedBy(SMALL_PADDING)
+        ) {
+            items(
+                items = heroes,
+                key = { hero ->
+                    hero.id
+                }
+            ) { hero ->
+                hero?.let {
+                    HeroItem(hero = it, navHostController = navHostController)
+                }
             }
         }
     }
+}
 
+@Composable
+fun handlePagingResult(
+    heroes: LazyPagingItems<Hero>
+): Boolean {
+    heroes.apply {
+        val error = when {
+            loadState.refresh is LoadState.Error -> loadState.refresh as LoadState.Error
+            loadState.prepend is LoadState.Error -> loadState.prepend as LoadState.Error
+            loadState.append is LoadState.Error -> loadState.append as LoadState.Error
+            else -> null
+        }
+
+        return when {
+            loadState.refresh is LoadState.Loading -> {
+                ShimmerEffect()
+                false
+            }
+            error != null -> {
+                false
+            }
+            else -> true
+        }
+    }
 }
 
 @Composable
