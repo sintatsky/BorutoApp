@@ -76,6 +76,7 @@ fun handlePagingResult(
                 false
             }
             error != null -> {
+                EmptyScreen(error)
                 false
             }
             else -> true

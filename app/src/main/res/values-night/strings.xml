@@ -3,4 +3,5 @@
     <string name="app_logo">App Logo</string>
     <string name="on_boarding_image">On Boarding Image</string>
     <string name="star_path">M11.65 44 16.3 28.8 4 20H19.2L24 4L28.8 20H44L31.7 28.8L36.35 44L24 34.6Z</string>
+    <string name="network_error_icon">Network Error Icon</string>
 </resources>
