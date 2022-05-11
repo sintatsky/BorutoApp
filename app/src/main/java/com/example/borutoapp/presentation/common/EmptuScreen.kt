@@ -24,12 +24,13 @@ import com.example.borutoapp.ui.theme.DarkGrey
 import com.example.borutoapp.ui.theme.LightGray
 import com.example.borutoapp.ui.theme.NETWORK_ERROR_ICON_HEIGHT
 import com.example.borutoapp.ui.theme.SMALL_PADDING
+import java.net.ConnectException
 import java.net.SocketTimeoutException
 
 @Composable
 fun EmptyScreen(error: LoadState.Error) {
     val message by remember {
-        mutableStateOf(parseErrorMessage(message = error.toString()))
+        mutableStateOf(parseErrorMessage(error = error))
     }
     val icon by remember {
         mutableStateOf(R.drawable.ic_network_error)
@@ -73,12 +74,12 @@ fun EmptyContent(alphaAnim: Float, icon: Int, message: String) {
     }
 }
 
-fun parseErrorMessage(message: String): String {
-    return when {
-        message.contains("SocketTimeoutException") -> {
+fun parseErrorMessage(error: LoadState.Error): String {
+    return when (error.error) {
+        is SocketTimeoutException -> {
             "Server Unavailable"
         }
-        message.contains("ConnectException") -> {
+        is ConnectException -> {
             "Internet Unavailable"
         }
         else -> {
@@ -93,7 +94,8 @@ fun EmptyScreenPreview() {
     EmptyContent(
         alphaAnim = ContentAlpha.disabled,
         icon = R.drawable.ic_network_error,
-        message = "Internet Unavailable")
+        message = "Internet Unavailable"
+    )
 }
 
 @Preview(showBackground = true, uiMode = UI_MODE_NIGHT_YES)
@@ -102,5 +104,6 @@ fun EmptyScreenDarkPreview() {
     EmptyContent(
         alphaAnim = ContentAlpha.disabled,
         icon = R.drawable.ic_network_error,
-        message = "Internet Unavailable")
+        message = "Internet Unavailable"
+    )
 }

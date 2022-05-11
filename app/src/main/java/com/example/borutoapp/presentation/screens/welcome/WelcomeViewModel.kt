@@ -1,4 +1,4 @@
-package com.example.borutoapp.presentation.welcome
+package com.example.borutoapp.presentation.screens.welcome
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope

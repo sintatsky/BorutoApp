@@ -1,4 +1,4 @@
-package com.example.borutoapp.presentation.welcome
+package com.example.borutoapp.presentation.screens.welcome
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.Image
