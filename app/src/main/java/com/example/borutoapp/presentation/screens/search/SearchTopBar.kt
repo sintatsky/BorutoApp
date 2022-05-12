@@ -15,6 +15,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.tooling.preview.Preview
 import com.example.borutoapp.R
 import com.example.borutoapp.ui.theme.TOP_APP_BAR_HEIGHT
 import com.example.borutoapp.ui.theme.topAppBarBackgroundColor
@@ -27,8 +28,12 @@ fun SearchTopBar(
     onSearchClicked: (String) -> Unit,
     onCloseClicked: () -> Unit
 ) {
-
-
+    SearchWidget(
+        text = text,
+        onTextChange = onTextChange,
+        onSearchClicked = onSearchClicked,
+        onCloseClicked = onCloseClicked
+        )
 }
 
 @Composable
@@ -67,7 +72,7 @@ fun SearchWidget(
                 ) {
                     Icon(
                         imageVector = Icons.Default.Search,
-                        contentDescription = "Search Icon",
+                        contentDescription = stringResource(R.string.search_icon_description),
                         tint = MaterialTheme.colors.topAppBarContentColor
                     )
                 }
@@ -103,4 +108,15 @@ fun SearchWidget(
             )
         )
     }
+}
+
+@Preview
+@Composable
+fun SearchWidgetPreview() {
+    SearchWidget(
+        text = "",
+        onTextChange = {},
+        onSearchClicked = {},
+        onCloseClicked = {}
+    )
 }

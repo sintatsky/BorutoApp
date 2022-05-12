@@ -5,6 +5,7 @@ import androidx.compose.runtime.Composable
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.paging.compose.collectAsLazyPagingItems
+import com.example.borutoapp.navigation.Screen
 import com.example.borutoapp.presentation.common.ListContent
 
 @Composable
@@ -16,7 +17,10 @@ fun HomeScreen(
 
     Scaffold(
         topBar = {
-            HomeTopBar(onSearchClicked = { })
+            HomeTopBar(
+                onSearchClicked = {
+                navHostController.navigate(Screen.Search.route)
+            })
         },
         content = {
             ListContent(
