@@ -6,4 +6,8 @@
     <string name="network_error_icon">Network Error Icon</string>
     <string name="close_icon">Close Icon</string>
     <string name="search_icon_description">Search Icon</string>
+    <string name="about">About</string>
+    <string name="family">Family</string>
+    <string name="abilities">Abilities</string>
+    <string name="nature_types">Nature Types</string>
 </resources>
